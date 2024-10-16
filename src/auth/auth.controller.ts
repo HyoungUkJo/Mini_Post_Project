@@ -8,13 +8,16 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('signup')
-  signUp(@Body() userDto: UserCreateRequestDto) {
-    return this.authService.signUp(userDto);
+  async signUp(@Body() userDto: UserCreateRequestDto) {
+    await this.authService.signUp(userDto);
+    
+    return { suscces: true, message:"회원가입에 성공했습니다."}
   }
 
   @Post('signin')
-  signin(@Body() userDto: UserLoginRequestDto) {
-    return this.authService.signIn(userDto);
+  async signin(@Body() userDto: UserLoginRequestDto) {
+    const token = await this.authService.signIn(userDto);
+    return {success: true, message: "로그인 성공", token: token.accessToken} 
   }
 
   // @Delete()
