@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Post } from './entities/create.post.entity';
 import { CreatePostDto } from './DTO/post.create.dto';
@@ -62,7 +62,12 @@ export class PostsService {
   }
 
   // 게시글 삭제
-  deletePost() {}
+  async deletePost(post_pk:number,user:User):Promise<void> {
+    const result = await this.postRepository.delete({post_pk});
+    if (result.affected === 0) {
+      throw new NotFoundException(`Can't find Board with id ${post_pk}`);
+    }
+  }
 
   // 게시글 수정
   async updatePost(

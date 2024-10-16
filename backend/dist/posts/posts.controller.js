@@ -32,12 +32,15 @@ let PostsController = class PostsController {
     createPost(createPostdto, user) {
         console.log(createPostdto);
         this.postServices.createPost(createPostdto, user);
-        return { success: true, message: "게시글 작성 성공" };
+        return { success: true, message: '게시글 작성 성공' };
     }
-    deletePost() { }
+    deletePost(post_pk, user) {
+        this.postServices.deletePost(post_pk, user);
+        return { success: true, message: '삭제 성공' };
+    }
     updatePost(post_pk, updateRequestDto) {
         this.postServices.updatePost(post_pk, updateRequestDto);
-        return { success: true, message: "게시글 수정 성공" };
+        return { success: true, message: '게시글 수정 성공' };
     }
 };
 exports.PostsController = PostsController;
@@ -65,8 +68,10 @@ __decorate([
 ], PostsController.prototype, "createPost", null);
 __decorate([
     (0, common_1.Delete)(':post_pk'),
+    __param(0, (0, common_1.Param)('post_pk')),
+    __param(1, (0, get_user_decorator_1.GetUser)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Number, create_user_entity_1.User]),
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "deletePost", null);
 __decorate([

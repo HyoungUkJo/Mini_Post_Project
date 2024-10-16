@@ -46,7 +46,12 @@ let PostsService = class PostsService {
         });
         await this.postRepository.save(post);
     }
-    deletePost() { }
+    async deletePost(post_pk, user) {
+        const result = await this.postRepository.delete({ post_pk });
+        if (result.affected === 0) {
+            throw new common_1.NotFoundException(`Can't find Board with id ${post_pk}`);
+        }
+    }
     async updatePost(post_pk, updateRequestDto) {
         const { title, content } = updateRequestDto;
         const post = await this.getOnePost(post_pk);

@@ -1,8 +1,9 @@
 import { Exclude } from "class-transformer";
 import { Post } from "src/posts/entities/create.post.entity";
-import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique } from "typeorm";
 
 @Entity()
+@Unique(['uid'])
 export class User extends BaseEntity{
     @PrimaryGeneratedColumn()
     user_pk: number;
@@ -10,7 +11,7 @@ export class User extends BaseEntity{
     @Column()
     uid: string;
 
-    @Column({select:false})
+    @Column()
     password: string;
 
     @OneToMany(type=>Post, (post)=>post.user, {eager:true})
