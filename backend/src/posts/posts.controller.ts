@@ -41,17 +41,23 @@ export class PostsController {
   ) {
     console.log(createPostdto);
     this.postServices.createPost(createPostdto, user);
-    return {success: true, message:"게시글 작성 성공"}
+    return { success: true, message: '게시글 작성 성공' };
   }
 
   // 게시글 삭제
   @Delete(':post_pk')
-  deletePost() {}
+  deletePost(@Param('post_pk') post_pk: number, @GetUser() user: User) {
+    this.postServices.deletePost(post_pk, user);
+    return { success: true, message: '삭제 성공' };
+  }
 
   // 게시글 수정
   @Patch(':post_pk')
-  updatePost(@Param('post_pk') post_pk: number, @Body() updateRequestDto:PostCreateRequestDto) {
-    this.postServices.updatePost(post_pk, updateRequestDto)
-    return {success: true, message:"게시글 수정 성공"}
+  updatePost(
+    @Param('post_pk') post_pk: number,
+    @Body() updateRequestDto: PostCreateRequestDto,
+  ) {
+    this.postServices.updatePost(post_pk, updateRequestDto);
+    return { success: true, message: '게시글 수정 성공' };
   }
 }
