@@ -40,7 +40,8 @@ export class PostsController {
     @GetUser() user: User,
   ) {
     console.log(createPostdto);
-    return this.postServices.createPost(createPostdto, user);
+    this.postServices.createPost(createPostdto, user);
+    return {success: true, message:"게시글 작성 성공"}
   }
 
   // 게시글 삭제
@@ -49,5 +50,8 @@ export class PostsController {
 
   // 게시글 수정
   @Patch(':post_pk')
-  updatePost() {}
+  updatePost(@Param('post_pk') post_pk: number, @Body() updateRequestDto:PostCreateRequestDto) {
+    this.postServices.updatePost(post_pk, updateRequestDto)
+    return {success: true, message:"게시글 수정 성공"}
+  }
 }

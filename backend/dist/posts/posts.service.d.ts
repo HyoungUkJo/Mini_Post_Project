@@ -9,5 +9,5 @@ export declare class PostsService {
     getOnePost(post_pk: number): Promise<Post>;
     createPost(createPostdto: PostCreateRequestDto, user: User): Promise<void>;
     deletePost(): void;
-    updatePost(): void;
+    updatePost(post_pk: number, updateRequestDto: PostCreateRequestDto): Promise<void>;
 }
