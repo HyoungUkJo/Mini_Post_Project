@@ -1,22 +1,20 @@
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 function Register() {
   const idRef = useRef(null);
   const passWordRef = useRef(null);
   const navigate = useNavigate();
 
-
   function signUp() {
-    fetch("/auth/signup", {
-      method : "POST",
-      headers : {
-        "Content-Type" : "application/json",
+    fetch("http://localhost:3000/auth/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        uid : idRef.current.value,
-        password : passWordRef.current.value
+        uid: idRef.current.value,
+        password: passWordRef.current.value,
       }),
     }).then((res) => {
       if (res.ok) {
@@ -24,20 +22,20 @@ function Register() {
         navigate("/");
         console.log(res);
       }
-    })
+    });
   }
   return (
     <div>
       <h2>Register</h2>
       <label>
-        Username: <input type="text" ref = {idRef}/>
+        Username: <input type="text" ref={idRef} />
       </label>
       <br />
       <label>
-        Password: <input type="password" ref = {passWordRef}/>
+        Password: <input type="password" ref={passWordRef} />
       </label>
       <br />
-      <button onClick = {signUp}>Submit</button>
+      <button onClick={signUp}>Submit</button>
     </div>
   );
 }
