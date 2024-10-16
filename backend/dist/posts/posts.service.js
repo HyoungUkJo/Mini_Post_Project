@@ -19,8 +19,20 @@ let PostsService = class PostsService {
     constructor(postRepository) {
         this.postRepository = postRepository;
     }
-    getAllPosts() {
-        return this.postRepository.find();
+    async getAllPosts() {
+        const post = await this.postRepository
+            .createQueryBuilder('post')
+            .leftJoinAndSelect('post.user', 'user')
+            .select([
+            'post.post_pk',
+            'post.title',
+            'post.content',
+            'post.create_at',
+            'post.update_at',
+            'user.uid',
+        ])
+            .getMany();
+        return post;
     }
     getOnePost(post_pk) {
         return this.postRepository.findOneBy({ post_pk });
@@ -35,7 +47,13 @@ let PostsService = class PostsService {
         await this.postRepository.save(post);
     }
     deletePost() { }
-    updatePost() { }
+    async updatePost(post_pk, updateRequestDto) {
+        const { title, content } = updateRequestDto;
+        const post = await this.getOnePost(post_pk);
+        post.title = title;
+        post.content = content;
+        await this.postRepository.save(post);
+    }
 };
 exports.PostsService = PostsService;
 exports.PostsService = PostsService = __decorate([
