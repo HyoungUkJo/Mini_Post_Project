@@ -6,7 +6,13 @@ export declare class PostsController {
     constructor(postServices: PostsService);
     getAllPosts(): Promise<import("./entities/create.post.entity").Post[]>;
     getOnePost(post_pk: number): Promise<import("./entities/create.post.entity").Post>;
-    createPost(createPostdto: PostCreateRequestDto, user: User): Promise<void>;
+    createPost(createPostdto: PostCreateRequestDto, user: User): {
+        success: boolean;
+        message: string;
+    };
     deletePost(): void;
-    updatePost(): void;
+    updatePost(post_pk: number, updateRequestDto: PostCreateRequestDto): {
+        success: boolean;
+        message: string;
+    };
 }

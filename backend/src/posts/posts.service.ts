@@ -14,12 +14,25 @@ export class PostsService {
   ) {}
 
   // 전체 게시글 조회
-  getAllPosts(): Promise<Post[]> {
-    return this.postRepository.find();
+  async getAllPosts(): Promise<Post[]> {
+    const post = await this.postRepository
+      .createQueryBuilder('post')
+      .leftJoinAndSelect('post.user', 'user')
+      .select([
+        'post.post_pk',
+        'post.title',
+        'post.content',
+        'post.create_at',
+        'post.update_at',
+        'user.uid',
+      ])
+      .getMany();
+    return post;
+    // return this.postRepository.find();
   }
 
   //상세 게시글 조회
-  getOnePost(post_pk: number):Promise<Post> {
+  getOnePost(post_pk: number): Promise<Post> {
     return this.postRepository.findOneBy({ post_pk });
   }
 
@@ -33,8 +46,11 @@ export class PostsService {
    * 요청 시간 필요
     -> Date관련 함수가 있을듯 이를 활용하자.-> 해결 CreateDateColum()을 통해서 해결완료
   */
-  async createPost(createPostdto: PostCreateRequestDto, user:User) :Promise<void> {
-    const {title, content} = createPostdto;
+  async createPost(
+    createPostdto: PostCreateRequestDto,
+    user: User,
+  ): Promise<void> {
+    const { title, content } = createPostdto;
 
     const post = this.postRepository.create({
       title,
@@ -49,5 +65,14 @@ export class PostsService {
   deletePost() {}
 
   // 게시글 수정
-  updatePost() {}
+  async updatePost(
+    post_pk: number,
+    updateRequestDto: PostCreateRequestDto,
+  ): Promise<void> {
+    const { title, content } = updateRequestDto;
+    const post = await this.getOnePost(post_pk);
+    post.title = title;
+    post.content = content;
+    await this.postRepository.save(post);
+  }
 }

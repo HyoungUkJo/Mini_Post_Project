@@ -10,7 +10,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
-const class_transformer_1 = require("class-transformer");
 const create_post_entity_1 = require("../../posts/entities/create.post.entity");
 const typeorm_1 = require("typeorm");
 let User = class User extends typeorm_1.BaseEntity {
@@ -25,8 +24,7 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "uid", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
-    (0, class_transformer_1.Exclude)({ toPlainOnly: true }),
+    (0, typeorm_1.Column)({ select: false }),
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
 __decorate([

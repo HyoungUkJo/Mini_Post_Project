@@ -40,7 +40,7 @@ __decorate([
     __metadata("design:type", Date)
 ], Post.prototype, "delete_at", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(type => create_user_entity_1.User, user => user.posts, { eager: false }),
+    (0, typeorm_1.ManyToOne)((type) => create_user_entity_1.User, (user) => user.user_pk, { eager: false }),
     __metadata("design:type", create_user_entity_1.User)
 ], Post.prototype, "user", void 0);
 exports.Post = Post = __decorate([
