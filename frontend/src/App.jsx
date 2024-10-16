@@ -8,6 +8,7 @@ import './App.css';
 import Register from './register/register.jsx';
 import Main from './main/MainPage.jsx';
 import { useRef } from 'react';
+import CreatePost from './main/Createpost.jsx';
 // 
 function App() {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ function App() {
   };
 
   const handleMainClick = () => {
-    fetch("/auth/login", {
+    fetch("http://localhost:3000/auth/signin", {
       method: "POST",
       headers: {
         "Content-Type" : "application/json",
@@ -30,11 +31,21 @@ function App() {
       }),
     }).then((res) => {
       if (res.ok) {
-        console.log(res);
-      };
+        return res.json();
+      } else {
+        throw new Error('Network response was not ok');
+      }
     })
+    .then((data) => {
+      alert(data.message);
+      localStorage.setItem("token", data.token)
+      if (data.message === '로그인 성공')
+        navigate("/main");
+    })
+    .catch((error) => {
+      console.error('There was a problem with the fetch operation: ',error);
+    });
 
-    navigate("/main");
   }
 
 
@@ -63,6 +74,7 @@ function AppWrapper() {
         <Route path="/" element={<App />} />
         <Route path="/register" element={<Register />} />
         <Route path="/main" element={<Main />} />
+        <Route path="/create_post" element = {<CreatePost />} />
       </Routes>
     </Router>
   );
