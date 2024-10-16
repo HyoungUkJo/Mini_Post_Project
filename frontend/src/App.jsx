@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import './App.css';
 import Register from './register/register.jsx';
-import Main from './main/main.jsx';
+import Main from './main/MainPage.jsx';
 import { useRef } from 'react';
 // 
 function App() {
