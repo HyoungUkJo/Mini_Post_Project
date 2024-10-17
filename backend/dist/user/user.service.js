@@ -28,7 +28,17 @@ let UserService = class UserService {
         const salt = await bcrypt.genSalt();
         const hashedPassword = await bcrypt.hash(password, salt);
         const user = this.userRepository.create({ uid, password: hashedPassword });
-        await this.userRepository.save(user);
+        try {
+            await this.userRepository.save(user);
+        }
+        catch (error) {
+            if (error.errno === 19) {
+                throw new common_1.ConflictException('Existing username');
+            }
+            else {
+                throw new common_1.InternalServerErrorException();
+            }
+        }
     }
 };
 exports.UserService = UserService;

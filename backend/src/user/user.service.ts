@@ -1,9 +1,13 @@
-import { Inject, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Inject,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { User } from './entities/create-user.entity';
 import { UserCreateRequestDto } from 'src/auth/DTO/user-create-request.dto';
 import * as bcrypt from 'bcryptjs';
-
 
 @Injectable()
 export class UserService {
@@ -22,9 +26,17 @@ export class UserService {
     // 가입된 회원 검증 필요
 
     const salt = await bcrypt.genSalt(); // salt 생성
-    const hashedPassword = await bcrypt.hash(password, salt); // password와 salt를 이용해 hash 생성    
-    const user = this.userRepository.create({ uid, password:hashedPassword });
-    await this.userRepository.save(user);
+    const hashedPassword = await bcrypt.hash(password, salt); // password와 salt를 이용해 hash 생성
+    const user = this.userRepository.create({ uid, password: hashedPassword });
+    try {
+      await this.userRepository.save(user);
+    } catch (error) {
+      // console.log('error:', error);
+      if (error.errno === 19) {
+        throw new ConflictException('Existing username');
+      } else {
+        throw new InternalServerErrorException();
+      }
+    }
   }
-
 }

@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Post } from './entities/create.post.entity';
 import { CreatePostDto } from './DTO/post.create.dto';
@@ -32,8 +32,23 @@ export class PostsService {
   }
 
   //상세 게시글 조회
-  getOnePost(post_pk: number): Promise<Post> {
-    return this.postRepository.findOneBy({ post_pk });
+  async getOnePost(post_pk: number): Promise<Post> {
+    const post = await this.postRepository
+    .createQueryBuilder('post')
+    .leftJoinAndSelect('post.user', 'user')
+    .leftJoinAndSelect('post.comments','comment')
+    .select([
+      'post.post_pk',
+      'post.title',
+      'post.content',
+      'post.create_at',
+      'post.update_at',
+      'user.uid',
+      'comment',
+    ])
+    .where('post.post_pk =:post_pk',{post_pk})
+    .getOne();
+    return post;
   }
 
   // 게시글 작성
@@ -62,7 +77,12 @@ export class PostsService {
   }
 
   // 게시글 삭제
-  deletePost() {}
+  async deletePost(post_pk: number, user: User): Promise<void> {
+    const result = await this.postRepository.delete({ post_pk });
+    if (result.affected === 0) {
+      throw new NotFoundException(`Can't find Board with id ${post_pk}`);
+    }
+  }
 
   // 게시글 수정
   async updatePost(

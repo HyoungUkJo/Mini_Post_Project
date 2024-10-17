@@ -3,8 +3,9 @@ import { AuthModule } from './auth/auth.module';
 import { DatabaseModule } from './database/database.module';
 import { UserModule } from './user/user.module';
 import { PostsModule } from './posts/posts.module';
+import { CommentsModule } from './comments/comments.module';
 
 @Module({
-  imports: [AuthModule, DatabaseModule, UserModule, PostsModule],
+  imports: [AuthModule, DatabaseModule, UserModule, PostsModule, CommentsModule],
 })
 export class AppModule {}

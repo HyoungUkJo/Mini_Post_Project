@@ -10,7 +10,10 @@ export declare class PostsController {
         success: boolean;
         message: string;
     };
-    deletePost(): void;
+    deletePost(post_pk: number, user: User): {
+        success: boolean;
+        message: string;
+    };
     updatePost(post_pk: number, updateRequestDto: PostCreateRequestDto): {
         success: boolean;
         message: string;
