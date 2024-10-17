@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function CreatePost() {
   //   const dayRef = useRef(null);
@@ -37,17 +38,22 @@ export default function CreatePost() {
       });
   }
   return (
-    <form onSubmit={CreatePostCard}>
-      <div className="input_area">
-        <label>제목</label>
-        <input type="text" placeholder="computer" ref={titleRef} />
-      </div>
-      <div className="input_area">
-        <label>내용</label>
-        <input type="text" placeholder="컴퓨터" ref={contentRef} />
-      </div>
-      <div className="input_area"></div>
-      <button>저장</button>
-    </form>
+    <>
+      <h2>
+        <Link to="/main">형욱민성크로스</Link>
+      </h2>
+      <form onSubmit={CreatePostCard}>
+        <div className="input_area">
+          <label>제목</label>
+          <input type="text" placeholder="computer" ref={titleRef} />
+        </div>
+        <div className="input_area">
+          <label>내용</label>
+          <input type="text" placeholder="컴퓨터" ref={contentRef} />
+        </div>
+        <div className="input_area"></div>
+        <button>저장</button>
+      </form>
+    </>
   );
 }

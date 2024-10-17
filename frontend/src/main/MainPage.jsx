@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+// import Posts from "./Posts";
 
 function Main() {
   return (
@@ -11,6 +12,7 @@ function Main() {
           게시물 추가
         </Link>
       </div>
+      {/* <Posts /> */}
     </div>
   );
 }
