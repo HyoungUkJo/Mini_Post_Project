@@ -34,8 +34,23 @@ let PostsService = class PostsService {
             .getMany();
         return post;
     }
-    getOnePost(post_pk) {
-        return this.postRepository.findOneBy({ post_pk });
+    async getOnePost(post_pk) {
+        const post = await this.postRepository
+            .createQueryBuilder('post')
+            .leftJoinAndSelect('post.user', 'user')
+            .leftJoinAndSelect('post.comments', 'comment')
+            .select([
+            'post.post_pk',
+            'post.title',
+            'post.content',
+            'post.create_at',
+            'post.update_at',
+            'user.uid',
+            'comment',
+        ])
+            .where('post.post_pk =:post_pk', { post_pk })
+            .getOne();
+        return post;
     }
     async createPost(createPostdto, user) {
         const { title, content } = createPostdto;
@@ -46,7 +61,12 @@ let PostsService = class PostsService {
         });
         await this.postRepository.save(post);
     }
-    deletePost() { }
+    async deletePost(post_pk, user) {
+        const result = await this.postRepository.delete({ post_pk });
+        if (result.affected === 0) {
+            throw new common_1.NotFoundException(`Can't find Board with id ${post_pk}`);
+        }
+    }
     async updatePost(post_pk, updateRequestDto) {
         const { title, content } = updateRequestDto;
         const post = await this.getOnePost(post_pk);

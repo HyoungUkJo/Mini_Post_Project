@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
+const comments_entity_1 = require("../../comments/entities/comments.entity");
 const create_post_entity_1 = require("../../posts/entities/create.post.entity");
 const typeorm_1 = require("typeorm");
 let User = class User extends typeorm_1.BaseEntity {
@@ -24,14 +25,19 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "uid", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ select: false }),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(type => create_post_entity_1.Post, (post) => post.user, { eager: true }),
     __metadata("design:type", Array)
 ], User.prototype, "posts", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)((type) => comments_entity_1.Comment, (comment) => comment.user, { eager: true }),
+    __metadata("design:type", Array)
+], User.prototype, "comments", void 0);
 exports.User = User = __decorate([
-    (0, typeorm_1.Entity)()
+    (0, typeorm_1.Entity)(),
+    (0, typeorm_1.Unique)(['uid'])
 ], User);
 //# sourceMappingURL=create-user.entity.js.map

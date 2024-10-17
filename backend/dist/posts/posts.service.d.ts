@@ -8,6 +8,6 @@ export declare class PostsService {
     getAllPosts(): Promise<Post[]>;
     getOnePost(post_pk: number): Promise<Post>;
     createPost(createPostdto: PostCreateRequestDto, user: User): Promise<void>;
-    deletePost(): void;
+    deletePost(post_pk: number, user: User): Promise<void>;
     updatePost(post_pk: number, updateRequestDto: PostCreateRequestDto): Promise<void>;
 }

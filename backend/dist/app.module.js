@@ -12,12 +12,13 @@ const auth_module_1 = require("./auth/auth.module");
 const database_module_1 = require("./database/database.module");
 const user_module_1 = require("./user/user.module");
 const posts_module_1 = require("./posts/posts.module");
+const comments_module_1 = require("./comments/comments.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [auth_module_1.AuthModule, database_module_1.DatabaseModule, user_module_1.UserModule, posts_module_1.PostsModule],
+        imports: [auth_module_1.AuthModule, database_module_1.DatabaseModule, user_module_1.UserModule, posts_module_1.PostsModule, comments_module_1.CommentsModule],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map
