@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Post = void 0;
+const comments_entity_1 = require("../../comments/entities/comments.entity");
 const create_user_entity_1 = require("../../user/entities/create-user.entity");
 const typeorm_1 = require("typeorm");
 let Post = class Post extends typeorm_1.BaseEntity {
@@ -43,6 +44,10 @@ __decorate([
     (0, typeorm_1.ManyToOne)((type) => create_user_entity_1.User, (user) => user.user_pk, { eager: false }),
     __metadata("design:type", create_user_entity_1.User)
 ], Post.prototype, "user", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)((type) => comments_entity_1.Comment, (comment) => comment.post, { eager: true }),
+    __metadata("design:type", Array)
+], Post.prototype, "comments", void 0);
 exports.Post = Post = __decorate([
     (0, typeorm_1.Entity)()
 ], Post);

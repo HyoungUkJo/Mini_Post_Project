@@ -1,3 +1,4 @@
+import { Comment } from 'src/comments/entities/comments.entity';
 import { User } from 'src/user/entities/create-user.entity';
 import { BaseEntity } from 'typeorm';
 export declare class Post extends BaseEntity {
@@ -8,4 +9,5 @@ export declare class Post extends BaseEntity {
     update_at: Date;
     delete_at: Date;
     user: User;
+    comments: Comment[];
 }
