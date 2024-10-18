@@ -1,10 +1,9 @@
-import { Comment } from 'src/comments/entities/comments.entity';
+import { Post } from 'src/posts/entities/create.post.entity';
 import { User } from 'src/user/entities/create-user.entity';
 import {
   BaseEntity,
   Column,
   CreateDateColumn,
-  DeleteDateColumn,
   Entity,
   ManyToOne,
   OneToMany,
@@ -13,15 +12,12 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class Post extends BaseEntity {
+export class Comment extends BaseEntity {
   @PrimaryGeneratedColumn()
-  post_pk: number;
+  comment_pk: number;
 
   @Column()
-  title: string;
-
-  @Column()
-  content: string;
+  comment: string;
 
   @CreateDateColumn()
   create_at: Date;
@@ -29,12 +25,9 @@ export class Post extends BaseEntity {
   @UpdateDateColumn()
   update_at: Date;
 
-  @DeleteDateColumn()
-  delete_at: Date;
+  @ManyToOne((type) => Post, (post) => post.post_pk, { eager: false })
+  post: Post;
 
   @ManyToOne((type) => User, (user) => user.user_pk, { eager: false })
   user: User;
-  
-  @OneToMany((type)=>Comment, (comment) => comment.post, {eager:true})
-  comments: Comment[];
 }
